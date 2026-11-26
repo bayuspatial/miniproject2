@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "News & HR Analytics API — Mini Project 2",
-    "description": "Koleksi Postman untuk pengujian REST API Mini Project 2 (Data Pipeline ETL & ELT, Analytics, dan Autentikasi API Key & JWT Bearer).\n\n## Panduan Setup\n1. Set `base_url` variable (default: `http://localhost:8000`)\n2. Isi nilai `api_key`, `client_id`, dan `client_secret` pada variabel koleksi sesuai file `.env` lokal Anda.\n3. Jalankan request **\"Get JWT Token\"** di folder **2. Auth** terlebih dahulu — script test otomatis menyimpan token ke variabel `jwt_token`.\n4. Seluruh protected endpoint dapat diuji menggunakan API Key (`X-API-Key`) atau JWT Bearer Token (`Authorization`).\n\n## Catatan Keamanan\nNilai variabel kredensial dikosongkan secara default pada file ini untuk mencegah kebocoran secret di version control.",
+    "name": "AI Prediction API",
+    "description": "Koleksi pengujian Postman yang telah diselaraskan 100% dengan endpoint dan konfigurasi kredensial lokal FastAPI di http://localhost:8000.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -12,17 +12,17 @@
     },
     {
       "key": "api_key",
-      "value": "",
+      "value": "_xEVmLhSfZFdflPVPoECAcVHobotiTuwzUqrH8VK6cY",
       "type": "string"
     },
     {
       "key": "client_id",
-      "value": "",
+      "value": "student_app",
       "type": "string"
     },
     {
       "key": "client_secret",
-      "value": "",
+      "value": "YDteNoCh7El5dRf6l2ZNrbD0NyS_wjsozFqCp1P4Frw",
       "type": "string"
     },
     {
