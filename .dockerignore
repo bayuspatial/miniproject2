@@ -1,0 +1,25 @@
+# ==============================================================================
+# Docker Ignore (.dockerignore)
+# Mencegah kredensial, cache, dan data mentah masuk ke dalam image Docker
+# ==============================================================================
+.git
+.gitignore
+.aiexclude
+.cursorignore
+.copilotignore
+.env
+.env.*
+*.csv
+employee_attrition.csv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.pytest_cache/
+.DS_Store
+*.log
+miniproject2_API.postman_collection.json

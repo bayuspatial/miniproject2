@@ -1,0 +1,46 @@
+# ==============================================================================
+# AI Exclude Configuration (.aiexclude)
+# Mencegah AI (Gemini Code Assist / Google Cloud AI) membaca, mengindeks,
+# atau menyerap kredensial & dataset privat ke prompt/training data
+# ==============================================================================
+
+# Kredensial, Rahasia, dan Konfigurasi Sensitif
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.cert
+*.secret
+*credentials*
+*secret*
+token.json
+secrets/
+
+# File Data & Dataset Mentah
+*.csv
+employee_attrition.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.jsonl
+data/
+datasets/
+raw_data/
+
+# Database Local & Dumps
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.gz
+
+# File Postman yang memuat credential / token aktif
+*.postman_environment.json
+miniproject2_API.postman_collection.json
+
+# Logs & Cache
+*.log
+logs/
+__pycache__/

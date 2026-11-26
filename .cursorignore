@@ -1,0 +1,26 @@
+# ==============================================================================
+# Cursor AI Ignore (.cursorignore)
+# Mencegah Cursor AI (Chat, Composer, Codebase Indexing) mengakses file sensitif
+# ==============================================================================
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.secret
+*credentials*
+*.csv
+employee_attrition.csv
+*.tsv
+*.xlsx
+*.parquet
+data/
+datasets/
+raw_data/
+*.db
+*.sqlite
+*.dump
+miniproject2_API.postman_collection.json
+*.postman_environment.json
+*.log
+__pycache__/

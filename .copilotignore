@@ -1,0 +1,24 @@
+# ==============================================================================
+# GitHub Copilot Ignore (.copilotignore)
+# Mencegah GitHub Copilot menyertakan file sensitif dan data ke context completions
+# ==============================================================================
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.secret
+*credentials*
+*.csv
+employee_attrition.csv
+*.tsv
+*.parquet
+data/
+datasets/
+raw_data/
+*.db
+*.sqlite
+miniproject2_API.postman_collection.json
+*.postman_environment.json
+*.log
+__pycache__/
