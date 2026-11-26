@@ -232,15 +232,12 @@ curl -X GET "http://localhost:8000/articles/search?source=books.toscrape&page=1&
 ---
 
 ### 4. HR Attrition Analytics (ELT Path B)
-*Semua endpoint di bawah memerlukan autentikasi (`X-API-Key` atau `Bearer Token`).*
+Endpoint analitik data HR Attrition yang ditransformasikan secara langsung melalui query SQL database:
 
-| Method | Endpoint | Parameter Query | Logika SQL Utama |
+| Method | Endpoint | Parameter | Deskripsi & Logika SQL Utama |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/attrition/summary` | - | `COUNT(*)`, `FILTER (WHERE "Attrition" = 'Yes')` |
-| `GET` | `/attrition/by-department` | - | `GROUP BY Department`, rasio keluar, `AVG(MonthlyIncome)` |
-| `GET` | `/attrition/by-overtime` | - | Cross-tab status lembur vs rasio attrition |
-| `GET` | `/attrition/by-tenure` | - | `CASE WHEN YearsAtCompany < 2 THEN ...` (tenure bucket) |
-| `GET` | `/attrition/top-earners` | `limit_per_dept` (1–20) | `RANK() OVER (PARTITION BY Department ORDER BY MonthlyIncome DESC)` |
+| `GET` | `/attrition/department/{dept_name}` | Path: `dept_name` | Agregasi statistik departemen (total, rasio keluar, rata-rata & rentang gaji) serta Top 3 Earners via `RANK() OVER (ORDER BY MonthlyIncome DESC)` |
+| `GET` | `/attrition/risk-profile` | Query: `limit` (1–100, default 20) | Daftar karyawan dengan indikator risiko tinggi: `OverTime = 'Yes'`, `YearsAtCompany < 3`, dan `MonthlyIncome < avg_income` |
 
 ---
 

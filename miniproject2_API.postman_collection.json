@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "AI Prediction, News & HR Analytics API",
-    "description": "API lengkap untuk Pipeline Data (ETL & ELT), Prediksi AI, dan Manajemen Autentikasi (API Key & JWT Bearer).\n\n**Path A (ETL):** Scraped articles → cleaned → loaded\n**Path B (ELT):** Raw CSV → loaded → SQL transforms\n**Path C (AI & Data):** AI Sentiment Prediction & Reference Products Data\n\n## Setup\n1. Set `base_url` variable (default: http://localhost:8000)\n2. Jalankan request \"Get JWT Token\" di folder Auth terlebih dahulu — script test akan otomatis menyimpan token ke variabel `jwt_token`\n3. Protected endpoints dapat diakses menggunakan API Key (`X-API-Key`) atau JWT Bearer Token\n4. Nilai `api_key`, `client_id`, dan `client_secret` sudah disesuaikan dengan konfigurasi `.env`\n\n## Auth Methods\n- **API Key:** Header `X-API-Key`\n- **JWT Bearer:** POST `/token` → gunakan token di header `Authorization: Bearer {{jwt_token}}`",
+    "name": "News & HR Analytics API — Mini Project 2",
+    "description": "Koleksi Postman untuk pengujian REST API Mini Project 2 (Data Pipeline ETL & ELT, Analytics, dan Autentikasi API Key & JWT Bearer).\n\n## Panduan Setup\n1. Set `base_url` variable (default: `http://localhost:8000`)\n2. Isi nilai `api_key`, `client_id`, dan `client_secret` pada variabel koleksi sesuai file `.env` lokal Anda.\n3. Jalankan request **\"Get JWT Token\"** di folder **2. Auth** terlebih dahulu — script test otomatis menyimpan token ke variabel `jwt_token`.\n4. Seluruh protected endpoint dapat diuji menggunakan API Key (`X-API-Key`) atau JWT Bearer Token (`Authorization`).\n\n## Catatan Keamanan\nNilai variabel kredensial dikosongkan secara default pada file ini untuk mencegah kebocoran secret di version control.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -12,17 +12,17 @@
     },
     {
       "key": "api_key",
-      "value": "_xEVmLhSfZFdflPVPoECAcVHobotiTuwzUqrH8VK6cY",
+      "value": "",
       "type": "string"
     },
     {
       "key": "client_id",
-      "value": "student_app",
+      "value": "",
       "type": "string"
     },
     {
       "key": "client_secret",
-      "value": "YDteNoCh7El5dRf6l2ZNrbD0NyS_wjsozFqCp1P4Frw",
+      "value": "",
       "type": "string"
     },
     {
@@ -49,7 +49,7 @@
                 ""
               ]
             },
-            "description": "Public — no auth needed. Mengembalikan info API, nama student, dan path yang tersedia."
+            "description": "Public — mengembalikan info API, nama student, dan path yang tersedia."
           }
         },
         {
@@ -86,130 +86,9 @@
             },
             "description": "Public — returns status dan timestamp server."
           }
-        },
-        {
-          "name": "Reference Data (Products)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 200\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "pm.test(\"Returns list of products\", function() {",
-                  "    var json = pm.response.json();",
-                  "    pm.expect(json).to.be.an(\"array\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/data?limit=5",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "data"
-              ],
-              "query": [
-                {
-                  "key": "category",
-                  "value": "",
-                  "disabled": true,
-                  "description": "Filter by category (misal: Electronics, Fashion, dll)"
-                },
-                {
-                  "key": "limit",
-                  "value": "5",
-                  "description": "Max results (1-100)"
-                }
-              ]
-            },
-            "description": "Public — Ambil sampel dataset referensi produk (opsional filter category dan limit)."
-          }
-        },
-        {
-          "name": "Reference Data — Filter Category",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/data?category=Books&limit=5",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "data"
-              ],
-              "query": [
-                {
-                  "key": "category",
-                  "value": "Books",
-                  "description": "Filter by category"
-                },
-                {
-                  "key": "limit",
-                  "value": "5",
-                  "description": "Max results"
-                }
-              ]
-            },
-            "description": "Public — Filter dataset referensi produk berdasarkan kategori tertentu."
-          }
-        },
-        {
-          "name": "Predict Sentiment (AI)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 200\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "pm.test(\"Valid prediction response\", function() {",
-                  "    var json = pm.response.json();",
-                  "    pm.expect(json).to.have.property(\"label\");",
-                  "    pm.expect(json).to.have.property(\"confidence\");",
-                  "    pm.expect(json).to.have.property(\"input_text\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"text\": \"Pelayanan aplikasi ini sangat cepat, responsif, dan mudah digunakan oleh pengguna.\",\n    \"threshold\": 0.7\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/predict",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "predict"
-              ]
-            },
-            "description": "Public — Prediksi label sentimen dari teks input dengan validasi skema otomatis (threshold: 0.0 - 1.0)."
-          }
         }
       ],
-      "description": "No authentication required. Endpoint publik termasuk status sistem, dataset referensi, dan prediksi AI."
+      "description": "Endpoint publik tanpa autentikasi."
     },
     {
       "name": "2. Auth",
@@ -361,7 +240,7 @@
                 "token"
               ]
             },
-            "description": "Verifikasi bahwa login token gagal (401) jika client credentials salah."
+            "description": "Verifikasi bahwa request token gagal (401) jika client credentials salah."
           }
         }
       ],
@@ -617,38 +496,80 @@
             },
             "description": "Pencarian artikel tingkat lanjut dengan pagination dan multi-filter (source, title, date range)."
           }
-        },
+        }
+      ],
+      "description": "ETL path — Data artikel hasil scraping, pembersihan dengan Pandas, dan dimuat ke database.\nSemua request menggunakan autentikasi API Key."
+    },
+    {
+      "name": "4. Attrition (ELT)",
+      "item": [
         {
-          "name": "Get Article by ID",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/articles/1",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles",
-                "1"
-              ]
-            },
-            "description": "Ambil satu artikel berdasarkan ID database."
-          }
-        },
-        {
-          "name": "Get Article — Not Found (should 404)",
+          "name": "Department Detail & Top Earners (Sales)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Returns 404\", function() {",
+                  "pm.test(\"Status 200\", function() {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Has department statistics\", function() {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.have.property(\"department\");",
+                  "    pm.expect(json).to.have.property(\"total_employees\");",
+                  "    pm.expect(json).to.have.property(\"attrition_rate\");",
+                  "    pm.expect(json).to.have.property(\"top_earners\");",
+                  "    pm.expect(json.top_earners).to.be.an(\"array\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attrition/department/Sales",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attrition",
+                "department",
+                "Sales"
+              ]
+            },
+            "description": "Statistik lengkap (total karyawan, attrition count, attrition rate, avg income, min/max income) dan top 3 earners untuk department Sales."
+          }
+        },
+        {
+          "name": "Department Detail (Research & Development)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/attrition/department/Research & Development",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "attrition",
+                "department",
+                "Research & Development"
+              ]
+            },
+            "description": "Statistik lengkap dan top earners untuk department Research & Development."
+          }
+        },
+        {
+          "name": "Department Detail — Not Found (should 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Returns 404 for non-existent department\", function() {",
                   "    pm.response.to.have.status(404);",
                   "});"
                 ],
@@ -658,76 +579,23 @@
           ],
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "{{base_url}}/articles/999999",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "articles",
-                "999999"
-              ]
-            },
-            "description": "Verifikasi return status 404 untuk ID artikel yang tidak ada."
-          }
-        }
-      ],
-      "description": "ETL path — Data artikel hasil scraping, pembersihan dengan Pandas, dan dimuat ke database.\nSemua request menggunakan autentikasi API Key."
-    },
-    {
-      "name": "4. Attrition (ELT) — API Key",
-      "item": [
-        {
-          "name": "Attrition Summary",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 200\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "pm.test(\"Has expected fields\", function() {",
-                  "    var json = pm.response.json();",
-                  "    pm.expect(json).to.have.property(\"total_employees\");",
-                  "    pm.expect(json).to.have.property(\"attrition_rate\");",
-                  "    pm.expect(json).to.have.property(\"attrition_yes\");",
-                  "    pm.expect(json).to.have.property(\"attrition_no\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/attrition/summary",
+              "raw": "{{base_url}}/attrition/department/DepartemenFiktif",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "attrition",
-                "summary"
+                "department",
+                "DepartemenFiktif"
               ]
             },
-            "description": "Ringkasan data attrition keseluruhan: total karyawan, jumlah attrition Yes/No, dan attrition rate."
+            "description": "Verifikasi return status 404 untuk nama department yang tidak ditemukan di database."
           }
         },
         {
-          "name": "Attrition by Department",
+          "name": "High Risk Attrition Profiles",
           "event": [
             {
               "listen": "test",
@@ -736,7 +604,7 @@
                   "pm.test(\"Status 200\", function() {",
                   "    pm.response.to.have.status(200);",
                   "});",
-                  "pm.test(\"Returns array of department attrition\", function() {",
+                  "pm.test(\"Returns array of risk profiles\", function() {",
                   "    var json = pm.response.json();",
                   "    pm.expect(json).to.be.an(\"array\");",
                   "});"
@@ -747,183 +615,48 @@
           ],
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "{{base_url}}/attrition/by-department",
+              "raw": "{{base_url}}/attrition/risk-profile?limit=20",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "attrition",
-                "by-department"
-              ]
-            },
-            "description": "Attrition rate dan rata-rata penghasilan per departemen.\nSQL: GROUP BY + FILTER + AVG."
-          }
-        },
-        {
-          "name": "Attrition by Overtime",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 200\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "pm.test(\"Returns array of overtime attrition\", function() {",
-                  "    var json = pm.response.json();",
-                  "    pm.expect(json).to.be.an(\"array\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/attrition/by-overtime",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "attrition",
-                "by-overtime"
-              ]
-            },
-            "description": "Tingkat attrition berdasarkan status lembur (OverTime Yes/No).\nSQL: GROUP BY cross-tab."
-          }
-        },
-        {
-          "name": "Attrition by Tenure",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 200\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "pm.test(\"Returns array of tenure attrition\", function() {",
-                  "    var json = pm.response.json();",
-                  "    pm.expect(json).to.be.an(\"array\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/attrition/by-tenure",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "attrition",
-                "by-tenure"
-              ]
-            },
-            "description": "Attrition rate berdasarkan kelompok masa kerja (new <2y, mid 2-5y, veteran 5y+).\nSQL: CASE WHEN."
-          }
-        },
-        {
-          "name": "Top Earners by Department",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status 200\", function() {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "pm.test(\"Returns array of top earners\", function() {",
-                  "    var json = pm.response.json();",
-                  "    pm.expect(json).to.be.an(\"array\");",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/attrition/top-earners?limit_per_dept=3",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "attrition",
-                "top-earners"
+                "risk-profile"
               ],
               "query": [
                 {
-                  "key": "limit_per_dept",
-                  "value": "3",
-                  "description": "Jumlah ranking tertinggi per departemen (1-20)"
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maksimal jumlah data karyawan yang ditampilkan (1-100)"
                 }
               ]
             },
-            "description": "Top N karyawan dengan penghasilan tertinggi per departemen.\nSQL: RANK() OVER (PARTITION BY Department ORDER BY MonthlyIncome DESC) window function."
+            "description": "Daftar karyawan dengan indikator risiko attrition tinggi (OverTime = Yes, YearsAtCompany < 3, dan MonthlyIncome < rata-rata departemen)."
           }
         }
       ],
-      "description": "ELT path — CSV mentah dimuat ke DB, kemudian ditransformasikan dengan SQL saat query dipanggil.\nSemua request menggunakan API Key auth."
+      "description": "ELT path — Query analitik data HR Attrition: statistik department & top earners, serta profil karyawan berisiko tinggi."
     },
     {
       "name": "5. JWT Auth Flow",
       "item": [
         {
-          "name": "Attrition Summary (JWT)",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwt_token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/attrition/summary",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "attrition",
-                "summary"
-              ]
-            },
-            "description": "Endpoint yang sama dengan folder 4, namun menggunakan JWT Bearer token.\n\n⚠️ Pastikan sudah menjalankan \"Get JWT Token\" di folder 2 terlebih dahulu."
-          }
-        },
-        {
           "name": "Articles Stats (JWT)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function() {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -942,7 +675,7 @@
                 "stats"
               ]
             },
-            "description": "Endpoint yang sama dengan folder 3, menggunakan JWT Bearer token."
+            "description": "Endpoint statistik artikel menggunakan JWT Bearer token."
           }
         },
         {
@@ -970,11 +703,11 @@
                 }
               ]
             },
-            "description": "List artikel menggunakan JWT Bearer token."
+            "description": "List artikel menggunakan JWT Bearer token.\n\nDemonstrasi bahwa endpoint artikel mendukung dual autentikasi (API Key dan JWT Bearer)."
           }
         }
       ],
-      "description": "Demonstrasi bahwa endpoint terproteksi mendukung dual autentikasi (API Key dan JWT Bearer Token).\n\nJalankan \"Get JWT Token\" di folder 2 terlebih dahulu agar variabel `jwt_token` terisi."
+      "description": "Demonstrasi penggunaan JWT Bearer token pada endpoint yang terproteksi.\n\n⚠️ Jalankan \"Get JWT Token\" di folder 2 terlebih dahulu agar variabel `jwt_token` terisi."
     }
   ]
 }
