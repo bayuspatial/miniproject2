@@ -271,13 +271,14 @@ Repositori ini menyertakan koleksi pengujian lengkap di `miniproject2_API.postma
 ### Cara Menggunakan:
 1. Buka aplikasi **Postman** dan klik **Import**.
 2. Pilih file `miniproject2_API.postman_collection.json`.
-3. Koleksi tersusun rapi dalam 5 folder terstruktur:
-   - `1. Public`: Root, Health Check, Reference Data, dan AI Prediction.
-   - `2. Auth`: Login token JWT dan uji negatif (Status 401).
-   - `3. Articles (ETL) — API Key`: Seluruh uji endpoint artikel menggunakan API Key.
-   - `4. Attrition (ELT) — API Key`: Seluruh uji analitik HR Attrition.
-   - `5. JWT Auth Flow`: Uji endpoint terproteksi menggunakan JWT Bearer Token.
-4. **Alur Cepat:** Jalankan request `2. Auth > Get JWT Token` pertama kali. Script otomatis akan menyimpan token ke variabel koleksi `jwt_token`.
+3. Koleksi telah disusun langsung sesuai dengan 7 checklist pengujian tugas:
+   - `1. GET /articles/search - tanpa filter (default pagination)`
+   - `2. GET /articles/search - dengan filter source + date_from`
+   - `3. GET /articles/search - page 2 (bukti pagination berjalan)`
+   - `4. GET /articles/stats - total dan per-source breakdown`
+   - `5. GET /attrition/department/Sales - detail satu department`
+   - `6. GET /attrition/risk-profile - karyawan high-risk`
+   - `7. POST /token atau GET dengan API Key - bukti auth berjalan` (mencakup POST token, GET API key, dan uji penolakan 401 tanpa auth).
 
 ---
 
