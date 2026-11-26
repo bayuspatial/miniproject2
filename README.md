@@ -26,11 +26,11 @@ flowchart TD
     subgraph PathA["Path A: ETL (Scraped News & Books)"]
         A1["Web Scraper: RSS, Books, Quotes"] -->|Extract| A2["Pandas DataFrame"]
         A2 -->|"Transform: Clean, Deduplicate, Normalize"| A3["Cleaned DataFrame"]
-        A3 -->|"Load: ON CONFLICT DO NOTHING"| A4[("Cloud PostgreSQL: articles_bayu3")]
+        A3 -->|"Load: ON CONFLICT DO NOTHING"| A4[("Cloud PostgreSQL: articles_<student_name>")]
     end
 
     subgraph PathB["Path B: ELT (IBM HR Attrition)"]
-        B1["Raw CSV: employee_attrition.csv"] -->|"Extract & Load RAW"| B2[("Cloud PostgreSQL: raw_attrition_bayu3")]
+        B1["Raw CSV: employee_attrition.csv"] -->|"Extract & Load RAW"| B2[("Cloud PostgreSQL: raw_attrition_<student_name>")]
         B2 -->|"Transform in SQL at Query Time"| B3["Analytical Views / SQL Queries"]
     end
 
@@ -117,21 +117,19 @@ pip install -r requirements.txt
 ```
 
 ### 4. Konfigurasi Environment Variables
-Salin file template `.env.example` menjadi `.env`, lalu lengkapi nilai konfigurasi Anda:
+Salin file template `.env.example` menjadi `.env`, lalu lengkapi nilai konfigurasi Anda sesuai instruksi di dalamnya:
 ```bash
 cp .env.example .env
+# Edit file .env dan sesuaikan dengan kredensial database dan API Anda
 ```
 
-Contoh konfigurasi di `.env`:
-```env
-DATABASE_URL=postgresql://peserta:PASSWORD@84.247.146.224:5432/sandbox
-STUDENT_NAME=bayu3
-INTERNAL_API_KEY=_xEVmLhSfZFdflPVPoECAcVHobotiTuwzUqrH8VK6cY
-JWT_SECRET=6avd2Ob2juwaIqkWGgvU59v1UsDA28yuc8mPyb_zVF0
-JWT_EXPIRY_MINUTES=30
-CLIENT_ID=student_app
-CLIENT_SECRET=YDteNoCh7El5dRf6l2ZNrbD0NyS_wjsozFqCp1P4Frw
-```
+Variabel yang perlu dikonfigurasi pada `.env` (lihat rincian di `.env.example`):
+- `DATABASE_URL`: URI koneksi PostgreSQL database
+- `STUDENT_NAME`: Identifier / nama siswa
+- `INTERNAL_API_KEY`: API key untuk mengamankan akses internal
+- `JWT_SECRET`: Secret key untuk penandatanganan token JWT
+- `JWT_EXPIRY_MINUTES`: Masa berlaku token JWT (default: 30 menit)
+- `CLIENT_ID` & `CLIENT_SECRET`: Kredensial untuk autentikasi endpoint `/token`
 
 ---
 
@@ -228,7 +226,7 @@ Response:
 #### Contoh Request Pencarian dengan Paginasi:
 ```bash
 curl -X GET "http://localhost:8000/articles/search?source=books.toscrape&page=1&per_page=5" \
-     -H "X-API-Key: _xEVmLhSfZFdflPVPoECAcVHobotiTuwzUqrH8VK6cY"
+     -H "X-API-Key: <YOUR_API_KEY>"
 ```
 
 ---
@@ -255,7 +253,7 @@ Kirimkan API Key melalui request header `X-API-Key`:
 ```http
 GET /articles/stats HTTP/1.1
 Host: localhost:8000
-X-API-Key: _xEVmLhSfZFdflPVPoECAcVHobotiTuwzUqrH8VK6cY
+X-API-Key: <YOUR_API_KEY>
 ```
 
 ### 2. Metode JWT Bearer Token
